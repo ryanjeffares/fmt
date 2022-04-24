@@ -631,6 +631,7 @@ FMT_NORETURN FMT_API void throw_format_error(const char* message);
 struct error_handler {
   constexpr error_handler() = default;
   constexpr error_handler(const error_handler&) = default;
+  constexpr error_handler& operator=(const error_handler&) = default;
 
   // This function is intentionally not constexpr to give a compile-time error.
   FMT_NORETURN void on_error(const char* message) {
