@@ -16,6 +16,8 @@ function(add_fmt_executable name)
   #   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=95353
   if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND
       NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0)
+    target_compile_options(${name} PRIVATE -Wno-stringop-overflow)
+    # The linker flag is needed for LTO.
     target_link_libraries(${name} -Wno-stringop-overflow)
   endif ()
 endfunction()
@@ -92,7 +94,7 @@ add_fmt_test(enforce-checks-test)
 target_compile_definitions(enforce-checks-test PRIVATE
                            -DFMT_ENFORCE_COMPILE_STRING)
 
-if (FMT_CAN_MODULE)
+if (FMT_MODULE)
   # The tests need {fmt} to be compiled as traditional library
   # because of visibility of implementation details.
   # If module support is present the module tests require a
